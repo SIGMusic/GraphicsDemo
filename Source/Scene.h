@@ -51,16 +51,7 @@ class SunComponent : public juce::Component
 public:
     SunComponent() {}
 
-    void paint (juce::Graphics& g) override {
-        g.setColour (juce::Colours::yellow);
-
-        auto lineThickness = 3.0f;
-        g.drawEllipse (lineThickness * 0.5f,
-                       lineThickness * 0.5f,
-                       (float) getWidth()  - lineThickness * 2,
-                       (float) getHeight() - lineThickness * 2,
-                       lineThickness);
-    }
+    void paint (juce::Graphics& g) override { }
 
 private:
     //==============================================================================
@@ -155,7 +146,6 @@ public:
     {
         addAndMakeVisible (floor);
         addAndMakeVisible (house);
-        addAndMakeVisible (sun);
     }
 
     void paint (juce::Graphics& g) override
@@ -167,13 +157,11 @@ public:
     {
         floor.setBounds (10, 297, 580, 5);
         house.setBounds (300, 70, 200, 220);
-        sun.setBounds (10, 10, 70, 70);
     }
 
 private:
     FloorComponent floor;
     HouseComponent house;
-    SunComponent sun;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SceneComponent)
