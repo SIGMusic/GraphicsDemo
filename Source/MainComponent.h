@@ -4,6 +4,8 @@
 
 #include "Scene.h"
 
+#include "SynthKeyboard.h"
+
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -27,6 +29,9 @@ public:
 private:
     //==============================================================================
     SceneComponent scene_;
+    static const size_t kNumSynths = 2;
+    static const int kKeyboardHeight = 100; // pixels
+    juce::OwnedArray<SynthKeyboard> synths_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
