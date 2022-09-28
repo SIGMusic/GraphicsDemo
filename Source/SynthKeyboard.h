@@ -63,5 +63,8 @@ public:
         return 440.0 * std::pow(2.0, (midi_note - 69) / 12.0);
     }
 private:
+    WavetableSynth wavetable_synth_;
+    juce::MidiKeyboardState midi_keyboard_state_;
+    std::unique_ptr<juce::MidiKeyboardComponent> midi_keyboard_;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthKeyboard)
 };
