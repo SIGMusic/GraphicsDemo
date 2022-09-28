@@ -1,4 +1,5 @@
 #include "MainComponent.h"
+#include "SynthKeyboard.h"
 
 //==============================================================================
 MainComponent::MainComponent()
@@ -15,12 +16,19 @@ MainComponent::MainComponent()
         // Specify the number of input and output channels that we want to open
         setAudioChannels (2, 2);
     }
+
+    for (size_t synth_idx = 0; synth_idx < kNumSynths; ++synth_idx)
+    {
+        auto* new_keyboard = new SynthKeyboard();
+        addAndMakeVisible(new_keyboard);
+        synths_.add(new_keyboard);
+    }
     
     addAndMakeVisible(&scene_);
 
     // Make sure you set the size of the component after
     // you add any child components.
-    setSize (800, 800);
+    setSize (800, kNumSynths * kKeyboardHeight + 500);
 }
 
 MainComponent::~MainComponent()
@@ -53,4 +61,8 @@ void MainComponent::resized()
 {
     auto local_bounds = getLocalBounds();
     scene_.setBounds(local_bounds.removeFromTop(500));
+    for (auto* keyboard : synths_)
+    {
+        keyboard->setBounds(local_bounds.removeFromTop(kKeyboardHeight));
+    }
 }
