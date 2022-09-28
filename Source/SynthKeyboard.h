@@ -48,12 +48,19 @@ public:
     virtual void handleNoteOn(juce::MidiKeyboardState *source,
                               int midiChannel,
                               int midiNoteNumber,
-                              float velocity) override {}
+                              float velocity) override
+    {
+        wavetable_synth_.setFrequency(midiToFreq((juce::uint8) midiNoteNumber));
+        wavetable_synth_.setAmplitude(0.5);
+    }
 
     virtual void handleNoteOff(juce::MidiKeyboardState *source,
                                int midiChannel,
                                int midiNoteNumber,
-                               float velocity) override {}
+                               float velocity) override
+    {
+        wavetable_synth_.setAmplitude(0.0);
+    }
 
     void paint (juce::Graphics& g) override { /* Nothing */ }
 
