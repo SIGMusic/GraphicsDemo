@@ -33,11 +33,17 @@ public:
     {
     }
 
-    virtual void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override {}
+    virtual void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override
+    {
+        wavetable_synth_.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    }
 
     virtual void releaseResources() override { /* Nothing */ }
 
-    virtual void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override {}
+    virtual void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override
+    {
+        wavetable_synth_.getNextAudioBlock(bufferToFill);
+    }
 
     virtual void handleNoteOn(juce::MidiKeyboardState *source,
                               int midiChannel,
