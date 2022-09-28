@@ -24,9 +24,13 @@ class SynthKeyboard  : public juce::Component,
 public:
     SynthKeyboard()
     {
-        // In your constructor, you should add any child components, and
-        // initialise any special settings that your component needs.
+        // Allowed since we derive from MidiKeyboardState::Listener
+        midi_keyboard_state_.addListener(this);
 
+        // Free previous pointer and instantiate (reduces likelihood of memory leak)
+        midi_keyboard_.reset(new juce::MidiKeyboardComponent(midi_keyboard_state_,
+                 juce::KeyboardComponentBase::Orientation::horizontalKeyboard));
+        addAndMakeVisible(midi_keyboard_.get());
     }
 
     ~SynthKeyboard() override
@@ -66,9 +70,8 @@ public:
 
     void resized() override
     {
-        // This method is where you should set the bounds of any child
-        // components that your component contains..
-
+        // Fill this component with the keyboard
+        midi_keyboard_->setBounds(getLocalBounds());
     }
 
     static constexpr inline float midiToFreq(juce::uint8 midi_note)
