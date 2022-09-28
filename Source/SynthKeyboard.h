@@ -17,7 +17,9 @@
 //==============================================================================
 /*
 */
-class SynthKeyboard  : public juce::Component
+class SynthKeyboard  : public juce::Component,
+                       public juce::MidiKeyboardState::Listener,
+                       public juce::AudioSource
 {
 public:
     SynthKeyboard()
@@ -31,25 +33,23 @@ public:
     {
     }
 
-    void paint (juce::Graphics& g) override
-    {
-        /* This demo code just fills the component's background and
-           draws some placeholder text to get you started.
+    virtual void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override {}
 
-           You should replace everything in this method with your own
-           drawing code..
-        */
+    virtual void releaseResources() override { /* Nothing */ }
 
-        g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
+    virtual void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override {}
 
-        g.setColour (juce::Colours::grey);
-        g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
+    virtual void handleNoteOn(juce::MidiKeyboardState *source,
+                              int midiChannel,
+                              int midiNoteNumber,
+                              float velocity) override {}
 
-        g.setColour (juce::Colours::white);
-        g.setFont (14.0f);
-        g.drawText ("SynthKeyboard", getLocalBounds(),
-                    juce::Justification::centred, true);   // draw some placeholder text
-    }
+    virtual void handleNoteOff(juce::MidiKeyboardState *source,
+                               int midiChannel,
+                               int midiNoteNumber,
+                               float velocity) override {}
+
+    void paint (juce::Graphics& g) override { /* Nothing */ }
 
     void resized() override
     {
