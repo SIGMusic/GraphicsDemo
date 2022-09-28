@@ -22,6 +22,7 @@ MainComponent::MainComponent()
         auto* new_keyboard = new SynthKeyboard();
         addAndMakeVisible(new_keyboard);
         synths_.add(new_keyboard);
+        mixer_.addInputSource(new_keyboard, false /* don't transfer ownership */);
     }
     
     addAndMakeVisible(&scene_);
@@ -40,14 +41,17 @@ MainComponent::~MainComponent()
 //==============================================================================
 void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRate)
 {
+    mixer_.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
 {
+    mixer_.getNextAudioBlock(bufferToFill);
 }
 
 void MainComponent::releaseResources()
 {
+    mixer_.releaseResources();
 }
 
 //==============================================================================
