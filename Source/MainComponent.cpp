@@ -16,12 +16,6 @@ MainComponent::MainComponent()
         setAudioChannels (2, 2);
     }
     
- 
-    midi_keyboard_state_one_.addListener(this);
-    midi_keyboard_one_.reset(new juce::MidiKeyboardComponent(midi_keyboard_state_one_,
-                             juce::KeyboardComponentBase::Orientation::horizontalKeyboard));
-    addAndMakeVisible(midi_keyboard_one_.get());
-
     addAndMakeVisible(&scene_);
 
     // Make sure you set the size of the component after
@@ -38,12 +32,10 @@ MainComponent::~MainComponent()
 //==============================================================================
 void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRate)
 {
-    wavetable_synth_.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
 {
-    wavetable_synth_.getNextAudioBlock(bufferToFill);
 }
 
 void MainComponent::releaseResources()
@@ -61,17 +53,4 @@ void MainComponent::resized()
 {
     auto local_bounds = getLocalBounds();
     scene_.setBounds(local_bounds.removeFromTop(500));
-    midi_keyboard_one_->setBounds(local_bounds.removeFromTop(100));
 }
-
-void MainComponent::handleNoteOn(juce::MidiKeyboardState* source, int, int midiNoteNumber, float)
-{
-    wavetable_synth_.setFrequency(midiToFreq((juce::uint8) midiNoteNumber));
-    wavetable_synth_.setAmplitude(0.5);
-}
-
-void MainComponent::handleNoteOff(juce::MidiKeyboardState* source, int, int midiNoteNumber, float)
-{
-    wavetable_synth_.setAmplitude(0.0);
-}
-
